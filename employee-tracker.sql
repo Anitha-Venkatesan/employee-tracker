@@ -8,13 +8,13 @@ first_name VARCHAR(30) NOT NULL,
 last_name VARCHAR(30) NOT NULL,
 role_id INTEGER NOT NULL,
 manager_id INTEGER,
-FOREIGN KEY(manager_id) REFERENCES role(id),
-FOREIGN KEY(role_id) REFERENCES employee(id)
+FOREIGN KEY(role_id) REFERENCES role(id),
+FOREIGN KEY(manager_id) REFERENCES employee(id)
 );
 
 CREATE TABLE department (
 id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(30) NOT NULL
+department_name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE role (
