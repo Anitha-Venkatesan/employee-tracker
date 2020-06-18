@@ -14,7 +14,7 @@ FOREIGN KEY(manager_id) REFERENCES employee(id)
 
 CREATE TABLE department (
 id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-department_name VARCHAR(30) NOT NULL
+name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE role (
