@@ -4,6 +4,9 @@ const lodash = require('lodash');
 let { viewAllEmployee } = require("./view-all-employee");
 let { viewEmployeeByDepartment } = require("./view-all-employee-by-department");
 const { getAllDepartment } = require("./get-all-department");
+let {viewEmployeeByRole} = require("./view-all-employee-by-role");
+const { getAllRole } = require("./get-all-role");
+
 
 // created the connection information for the sql database
 let connection = mysql.createConnection({
@@ -25,8 +28,16 @@ function chooseDepartment(departments) {
   return inquirer.prompt({
     name: "department",
     type: "list",
-    message: "Choose Department",
+    message: "Choose Employee By Department ",
     choices: lodash.map(departments, 'name')
+  });
+}
+function chooseRole(roles) {
+  return inquirer.prompt({
+    name: "role",
+    type: "list",
+    message: "Choose Employee By Role",
+    choices: lodash.map(roles, 'title')
   });
 }
 
@@ -63,11 +74,14 @@ async function startQuestions() {
     const selectedDepartment = lodash.find(departments, { name: response.department });
     viewEmployeeByDepartment(connection, selectedDepartment.id);
   } 
-  else if(answer.questionList === "View All Employees by Manager") {
-    viewByManager();
-  }
   else if(answer.questionList === "View All Employees by Role") {
-    viewByRole();
+    const roles = await getAllRole(connection);
+    const response = await chooseRole(roles);
+    const selectedRole = lodash.find(roles, {title : response.role});
+    viewEmployeeByRole(connection, selectedRole.id);
+  }
+  else if(answer.questionList === "View All Employees by Manager") {
+    viewEmployeeByManager();
   }
   else if(answer.questionList === "Add Employee") {
     addEmployee();
