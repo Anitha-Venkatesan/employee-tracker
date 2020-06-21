@@ -20,5 +20,26 @@ INSERT INTO role (title,salary,department_id) VALUES
 ("Lawyer",75000,7);
 
 SELECT * FROM role;
+SELECT first_name, last_name, title
+   FROM employee, role
+   WHERE  employee.role_id = role.department_id;
 
+select * from employee;
 
+SELECT * FROM role;
+select * from department;
+
+SELECT employee.id, employee.first_name,
+employee.last_name,
+role.title,
+department.name,
+role.salary
+FROM employee,role,department
+WHERE employee.role_id = role.id AND role.department_id = department.id;
+
+DELETE FROM employee WHERE first_name='Anitha';
+
+DELETE FROM employee WHERE first_name ='Anand';
+DELETE FROM role;
+DELETE from employee;
+DELETE from department;
