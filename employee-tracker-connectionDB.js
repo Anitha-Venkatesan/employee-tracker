@@ -1,11 +1,13 @@
 let inquirer = require("inquirer");
 let mysql = require("mysql");
-const lodash = require('lodash');
-let { viewAllEmployee } = require("./view-all-employee");
-let { viewEmployeeByDepartment } = require("./view-all-employee-by-department");
-const { getAllDepartment } = require("./get-all-department");
-let {viewEmployeeByRole} = require("./view-all-employee-by-role");
-const { getAllRole } = require("./get-all-role");
+let lodash = require('lodash');
+let { viewAllEmployee } = require("./js/employee/view-all-employee");
+let { viewEmployeeByDepartment } = require("./js/departments/view-all-employee-by-department");
+let { getAllDepartment } = require("./js/departments/get-all-department");
+let {viewEmployeeByRole} = require("./js/roles/view-all-employee-by-role");
+let { getAllRole } = require("./js/roles/get-all-role");
+let { viewAllEmployeeByManager } = require("./js/manager/view-all-employee-by-manager");
+let { getAllManager } = require("./js/manager/get-all-manager");
 
 
 // created the connection information for the sql database
@@ -29,7 +31,12 @@ function chooseDepartment(departments) {
     name: "department",
     type: "list",
     message: "Choose Employee By Department ",
-    choices: lodash.map(departments, 'name')
+    choices: lodash.map(departments, (department) => {
+      return {
+        name: department.name,
+        value: department.id
+      };
+    })
   });
 }
 function chooseRole(roles) {
@@ -37,7 +44,25 @@ function chooseRole(roles) {
     name: "role",
     type: "list",
     message: "Choose Employee By Role",
-    choices: lodash.map(roles, 'title')
+    choices: lodash.map(roles, (role) => {
+      return {
+        name: role.title,
+        value: role.id
+      };
+    })
+  });
+}
+function chooseManager(managers) {
+  return inquirer.prompt({
+    name: "manager",
+    type: "list",
+    message: "Choose Employee By Manager",
+    choices: lodash.map(managers, (manager) => {
+      return {
+        name: `${manager.first_name} ${manager.last_name}`,
+        value: manager.id
+      };
+    })
   });
 }
 
@@ -71,17 +96,17 @@ async function startQuestions() {
   else if(answer.questionList === "View All Employees by Department") {
     const departments = await getAllDepartment(connection);
     const response = await chooseDepartment(departments);
-    const selectedDepartment = lodash.find(departments, { name: response.department });
-    viewEmployeeByDepartment(connection, selectedDepartment.id);
+    viewEmployeeByDepartment(connection, response.department);
   } 
   else if(answer.questionList === "View All Employees by Role") {
     const roles = await getAllRole(connection);
     const response = await chooseRole(roles);
-    const selectedRole = lodash.find(roles, {title : response.role});
-    viewEmployeeByRole(connection, selectedRole.id);
+    viewEmployeeByRole(connection, response.role);
   }
   else if(answer.questionList === "View All Employees by Manager") {
-    viewEmployeeByManager();
+    const managers = await getAllManager(connection);
+    const response = await chooseManager(managers);
+    viewAllEmployeeByManager(connection, response.manager);
   }
   else if(answer.questionList === "Add Employee") {
     addEmployee();
