@@ -10,6 +10,7 @@ let { viewAllEmployeeByManager } = require("./js/manager/view-all-employee-by-ma
 let { getAllManager } = require("./js/manager/get-all-manager");
 let { addEmployee } = require("./js/employee/add-employee");
 let { addDepartment } = require("./js/departments/add-department");
+let { addRole } = require("./js/roles/add-role");
 
 
 // created the connection information for the sql database
@@ -105,6 +106,20 @@ function addingDepartment() {
     }
   ]);
 }
+function addingRole() {
+  return inquirer.prompt([
+    {
+      name :"add_role",
+      type: "input",
+      message : "Enter the role of the employee?"
+    },
+    {
+      name :"salary",
+      type: "input",
+      message : "Enter the employee salary for the role?"
+    }
+  ]);
+}
 
 // function which prompts the user for what action to do
 async function startQuestions() {
@@ -170,7 +185,10 @@ async function startQuestions() {
     console.log(response.add_department);
   }
   else if(answer.questionList === "Add Role"){
-    addRole(); 
+    const response = await addingRole();
+    const departments = await getAllDepartment(connection);
+    const departmentResponse = await chooseDepartment(departments);
+    addRole(connection,response.add_role,response.salary,departmentResponse.department_id); 
   }
   else if(answer.questionList === "Remove Employee") {
     removeEmployee();
