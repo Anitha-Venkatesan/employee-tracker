@@ -1,3 +1,4 @@
+//function for adding new department to the department table
 function addDepartment(connection,add_department) {
     connection.query(`Insert into department set ? `,
        {

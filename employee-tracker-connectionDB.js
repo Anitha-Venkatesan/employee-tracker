@@ -193,15 +193,12 @@ async function startQuestions() {
     };
     const managerResponse = await chooseManager([noneManager,...managers]);
     addEmployee(connection,response.first_name,response.last_name,roleResponse.role, managerResponse.manager);
-    //console.log(response.first_name,response.last_name,roleResponse.role,managerResponse.manager);
-    //const roles  = await chooseRole(roles);
     viewAllEmployee(connection);
     startQuestions();
   }
   else if(answer.questionList === "Add Department"){
     const response = await addingDepartment();
     addDepartment(connection,response.add_department); 
-    //console.log(response.add_department);
     startQuestions();
   }
   else if(answer.questionList === "Add Role"){

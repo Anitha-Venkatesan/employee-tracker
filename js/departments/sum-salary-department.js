@@ -1,3 +1,4 @@
+//function for viewing the total utilized budget of a department
 function sumOfDepartment(connection,departmnet) {
     connection.query(`select sum(r.salary) as TotalUtilizedBudget, d.id, d.name as departmentfrom 
     employee e, role r, department d where 
@@ -6,7 +7,6 @@ function sumOfDepartment(connection,departmnet) {
     group by d.id; `,
           function(error,result) {
           if (error) throw error;
-            // Table all results of the SELECT statement
             console.table(result);
         });
     }

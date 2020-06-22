@@ -1,3 +1,4 @@
+//function for viewing employee names 
 function allEmployeeList(connection) {
     return new Promise((resolve, reject) => {
     connection.query(`SELECT id,first_name,last_name from employee;`,
@@ -9,7 +10,6 @@ function allEmployeeList(connection) {
     });
   });
 }
-
-  module.exports = {allEmployeeList};
+module.exports = {allEmployeeList};
  
 

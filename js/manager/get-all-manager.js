@@ -1,3 +1,4 @@
+//function for getting all the manager from the employee table
 function getAllManager(connection) {
     return new Promise((resolve, reject) => {
         connection.query(`SELECT * FROM employee WHERE manager_id IS NULL;`, function(error,result) {
@@ -8,6 +9,4 @@ function getAllManager(connection) {
         });
     });
 }
-
-
 module.exports = { getAllManager };

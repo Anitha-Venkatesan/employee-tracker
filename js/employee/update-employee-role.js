@@ -1,3 +1,4 @@
+//function for updating employee role
 function updateEmployeeRole(connection,roles,employee) {
     connection.query("UPDATE employee SET ? WHERE ?",
     [

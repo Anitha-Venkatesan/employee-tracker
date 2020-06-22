@@ -1,3 +1,4 @@
+//remove employee from the employee table
 function deleteEmployee(connection,employee) {
     connection.query(`DELETE FROM employee WHERE ?`,
         {

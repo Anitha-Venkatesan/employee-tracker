@@ -1,3 +1,4 @@
+//function for adding new role for the employee 
 function addRole(connection,add_role,salary,departmentId) {
     connection.query(`Insert into role set ? `,
        {

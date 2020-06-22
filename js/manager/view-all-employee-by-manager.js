@@ -1,3 +1,4 @@
+//function for viewing all the employee by manager
 function viewAllEmployeeByManager(connection,managerId) {
     connection.query(`select 
     e.id, 

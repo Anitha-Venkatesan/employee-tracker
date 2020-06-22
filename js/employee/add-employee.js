@@ -1,3 +1,4 @@
+//function for adding new employee to the table
 function addEmployee(connection,first_name,last_name,role,manager) {
     connection.query(`Insert into employee set ? `,
        {
@@ -8,7 +9,6 @@ function addEmployee(connection,first_name,last_name,role,manager) {
        },
           function(error,result) {
           if (error) throw error;
-            // Table all results of the SELECT statement
             console.table("employee added succesfully");
         });
     }
