@@ -14,6 +14,7 @@ let { addRole } = require("./js/roles/add-role");
 let { updateEmployeeRole } = require("./js/employee/update-employee-role");
 let { allEmployeeList } = require("./js/employee/employeeList");
 let { deleteEmployee } = require("./js/employee/delete-employee");
+let { sumOfDepartment } = require("./js/departments/sum-salary-department")
 
 
 // created the connection information for the sql database
@@ -151,6 +152,7 @@ async function startQuestions() {
       "Add Role",
       "Update Employee Role",
       "Remove Employee",
+      "View the total utilized budget of a department",
       "Exit" 
     ]
     });
@@ -193,6 +195,7 @@ async function startQuestions() {
     addEmployee(connection,response.first_name,response.last_name,roleResponse.role, managerResponse.manager);
     //console.log(response.first_name,response.last_name,roleResponse.role,managerResponse.manager);
     //const roles  = await chooseRole(roles);
+    viewAllEmployee(connection);
     startQuestions();
   }
   else if(answer.questionList === "Add Department"){
@@ -214,12 +217,18 @@ async function startQuestions() {
     const roles = await getAllRole(connection);
     const roleResponse = await chooseRole(roles);
     updateEmployeeRole(connection,roleResponse.role,employeeResponse.employee);
+    viewAllEmployee(connection);
     startQuestions();
   }
   else if(answer.questionList === "Remove Employee") {
     const allEmployee = await allEmployeeList(connection);
     const employeeResponse = await chooseEmployee(allEmployee);
     deleteEmployee(connection,employeeResponse.employee);
+    viewAllEmployee(connection);
+    startQuestions();
+  }
+  else if(answer.questionList === "View the total utilized budget of a department") {
+    sumOfDepartment(connection);
     startQuestions();
   }
   else{
