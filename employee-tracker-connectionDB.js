@@ -11,7 +11,8 @@ let { getAllManager } = require("./js/manager/get-all-manager");
 let { addEmployee } = require("./js/employee/add-employee");
 let { addDepartment } = require("./js/departments/add-department");
 let { addRole } = require("./js/roles/add-role");
-
+let { updateEmployeeRole } = require("./js/employee/update-employee-role");
+let { allEmployeeList } = require("./js/employee/employeeList");
 
 // created the connection information for the sql database
 let connection = mysql.createConnection({
@@ -68,6 +69,19 @@ function chooseManager(managers) {
     })
   });
 }
+function chooseEmployee(employees) {
+  return inquirer.prompt({
+    name: "employee",
+    type: "list",
+    message: "Choose the employee from the list to update the role ",
+    choices: lodash.map(employees, (employee) => {
+      return {
+        name: `${employee.first_name} ${employee.last_name}`,
+        value: employee.id
+      };
+    })
+  });
+}
 function addingEmployee() {
   return inquirer.prompt([
     {
@@ -120,7 +134,6 @@ function addingRole() {
     }
   ]);
 }
-
 // function which prompts the user for what action to do
 async function startQuestions() {
   const answer = await inquirer.prompt({
@@ -134,11 +147,6 @@ async function startQuestions() {
       "Add Department" ,
       "Add Employee",
       "Add Role",
-      "Remove Department",
-      "Remove Employee",
-      "Remove Role",
-      "Update Employee Department",
-      "Update Employee Manager",
       "Update Employee Role",
       "Exit" 
     ]
@@ -188,19 +196,14 @@ async function startQuestions() {
     const response = await addingRole();
     const departments = await getAllDepartment(connection);
     const departmentResponse = await chooseDepartment(departments);
-    addRole(connection,response.add_role,response.salary,departmentResponse.department_id); 
-  }
-  else if(answer.questionList === "Remove Employee") {
-    removeEmployee();
-  }
-  else if(answer.questionList === "Remove Department"){
-      removeDepartment(); 
-  }
-  else if(answer.questionList === "Remove Role"){
-    removeRole(); 
+    addRole(connection,response.add_role,response.salary,departmentResponse.department); 
   }
   else if(answer.questionList === "Update Employee Role") {
-    updateEmployeeRole();
+    const allEmployee = await allEmployeeList(connection);
+    const employeeResponse = await chooseEmployee(allEmployee);
+    const roles = await getAllRole(connection);
+    const roleResponse = await chooseRole(roles);
+    updateEmployeeRole(connection,roleResponse.role,employeeResponse.employee);
   }
   else if(answer.questionList === "Update Employee Manager") {
     updateManagerRole();
