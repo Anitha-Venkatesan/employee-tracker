@@ -57,7 +57,7 @@ function chooseManager(managers) {
   return inquirer.prompt({
     name: "manager",
     type: "list",
-    message: "Choose Employee By Manager",
+    message: "Choose Manager for employee",
     choices: lodash.map(managers, (manager) => {
       return {
         name: `${manager.first_name} ${manager.last_name}`,
@@ -95,7 +95,6 @@ function addingEmployee() {
   ]);
 
 }
-
 
 // function which prompts the user for what action to do
 async function startQuestions() {
@@ -144,7 +143,13 @@ async function startQuestions() {
     const roles = await getAllRole(connection);
     const roleResponse = await chooseRole(roles);
     const managers = await getAllManager(connection);
-    const managerResponse = await chooseManager(managers);
+    //Adding none manager to the manager list
+    const noneManager = {
+      first_name: 'None',
+      last_name: '',
+      id: null
+    };
+    const managerResponse = await chooseManager([noneManager,...managers]);
     addEmployee(connection,response.first_name,response.last_name,roleResponse.role, managerResponse.manager);
     console.log(response.first_name,response.last_name,roleResponse.role,managerResponse.manager);
     //const roles  = await chooseRole(roles);
