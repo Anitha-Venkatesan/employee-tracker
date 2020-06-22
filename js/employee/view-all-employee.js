@@ -19,4 +19,6 @@ function viewAllEmployee(connection) {
             console.table(result);
         });
     }
+
     module.exports = {viewAllEmployee};
+   

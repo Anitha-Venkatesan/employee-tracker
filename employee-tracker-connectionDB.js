@@ -13,6 +13,8 @@ let { addDepartment } = require("./js/departments/add-department");
 let { addRole } = require("./js/roles/add-role");
 let { updateEmployeeRole } = require("./js/employee/update-employee-role");
 let { allEmployeeList } = require("./js/employee/employeeList");
+let { deleteEmployee } = require("./js/employee/delete-employee");
+
 
 // created the connection information for the sql database
 let connection = mysql.createConnection({
@@ -148,6 +150,7 @@ async function startQuestions() {
       "Add Employee",
       "Add Role",
       "Update Employee Role",
+      "Remove Employee",
       "Exit" 
     ]
     });
@@ -155,21 +158,25 @@ async function startQuestions() {
   // based on their answer, call that function accordingly
   if (answer.questionList === "View All Employees") {
     viewAllEmployee(connection);
+    startQuestions();
   }
   else if(answer.questionList === "View All Employees by Department") {
     const departments = await getAllDepartment(connection);
     const response = await chooseDepartment(departments);
     viewEmployeeByDepartment(connection, response.department);
+    startQuestions();
   } 
   else if(answer.questionList === "View All Employees by Role") {
     const roles = await getAllRole(connection);
     const response = await chooseRole(roles);
     viewEmployeeByRole(connection, response.role);
+    startQuestions();
   }
   else if(answer.questionList === "View All Employees by Manager") {
     const managers = await getAllManager(connection);
     const response = await chooseManager(managers);
     viewAllEmployeeByManager(connection, response.manager);
+    startQuestions();
   }
   else if(answer.questionList === "Add Employee") {
     const response = await addingEmployee();
@@ -184,19 +191,22 @@ async function startQuestions() {
     };
     const managerResponse = await chooseManager([noneManager,...managers]);
     addEmployee(connection,response.first_name,response.last_name,roleResponse.role, managerResponse.manager);
-    console.log(response.first_name,response.last_name,roleResponse.role,managerResponse.manager);
+    //console.log(response.first_name,response.last_name,roleResponse.role,managerResponse.manager);
     //const roles  = await chooseRole(roles);
+    startQuestions();
   }
   else if(answer.questionList === "Add Department"){
     const response = await addingDepartment();
     addDepartment(connection,response.add_department); 
-    console.log(response.add_department);
+    //console.log(response.add_department);
+    startQuestions();
   }
   else if(answer.questionList === "Add Role"){
     const response = await addingRole();
     const departments = await getAllDepartment(connection);
     const departmentResponse = await chooseDepartment(departments);
-    addRole(connection,response.add_role,response.salary,departmentResponse.department); 
+    addRole(connection,response.add_role,response.salary,departmentResponse.department);
+    startQuestions(); 
   }
   else if(answer.questionList === "Update Employee Role") {
     const allEmployee = await allEmployeeList(connection);
@@ -204,12 +214,13 @@ async function startQuestions() {
     const roles = await getAllRole(connection);
     const roleResponse = await chooseRole(roles);
     updateEmployeeRole(connection,roleResponse.role,employeeResponse.employee);
+    startQuestions();
   }
-  else if(answer.questionList === "Update Employee Manager") {
-    updateManagerRole();
-  }
-  else if(answer.questionList === "Update Employee Department") {
-    updateDepartmentRole();
+  else if(answer.questionList === "Remove Employee") {
+    const allEmployee = await allEmployeeList(connection);
+    const employeeResponse = await chooseEmployee(allEmployee);
+    deleteEmployee(connection,employeeResponse.employee);
+    startQuestions();
   }
   else{
     connection.end();
