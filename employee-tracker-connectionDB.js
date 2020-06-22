@@ -9,6 +9,7 @@ let { getAllRole } = require("./js/roles/get-all-role");
 let { viewAllEmployeeByManager } = require("./js/manager/view-all-employee-by-manager");
 let { getAllManager } = require("./js/manager/get-all-manager");
 let { addEmployee } = require("./js/employee/add-employee");
+let { addDepartment } = require("./js/departments/add-department");
 
 
 // created the connection information for the sql database
@@ -31,7 +32,7 @@ function chooseDepartment(departments) {
   return inquirer.prompt({
     name: "department",
     type: "list",
-    message: "Choose Employee By Department ",
+    message: "Choose the department for employee ",
     choices: lodash.map(departments, (department) => {
       return {
         name: department.name,
@@ -95,6 +96,15 @@ function addingEmployee() {
   ]);
 
 }
+function addingDepartment() {
+  return inquirer.prompt([
+    {
+      name :"add_department",
+      type: "input",
+      message : "Enter department name for the employee?"
+    }
+  ]);
+}
 
 // function which prompts the user for what action to do
 async function startQuestions() {
@@ -155,7 +165,9 @@ async function startQuestions() {
     //const roles  = await chooseRole(roles);
   }
   else if(answer.questionList === "Add Department"){
-      addDepartment(); 
+    const response = await addingDepartment();
+    addDepartment(connection,response.add_department); 
+    console.log(response.add_department);
   }
   else if(answer.questionList === "Add Role"){
     addRole(); 
