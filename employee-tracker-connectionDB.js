@@ -8,6 +8,7 @@ let {viewEmployeeByRole} = require("./js/roles/view-all-employee-by-role");
 let { getAllRole } = require("./js/roles/get-all-role");
 let { viewAllEmployeeByManager } = require("./js/manager/view-all-employee-by-manager");
 let { getAllManager } = require("./js/manager/get-all-manager");
+let { addEmployee } = require("./js/employee/add-employee");
 
 
 // created the connection information for the sql database
@@ -43,7 +44,7 @@ function chooseRole(roles) {
   return inquirer.prompt({
     name: "role",
     type: "list",
-    message: "Choose Employee By Role",
+    message: "Choose Role for employee",
     choices: lodash.map(roles, (role) => {
       return {
         name: role.title,
@@ -65,6 +66,36 @@ function chooseManager(managers) {
     })
   });
 }
+function addingEmployee() {
+  return inquirer.prompt([
+    {
+      name: "first_name",
+      type: "input",
+      message: "Enter the employee first name?",
+      validate: (input) => {
+        // lodash validation method for validating user input
+        if (lodash.isEmpty(input)) {
+          return "Employee first name is required.";
+        }
+        return true;
+      }
+    },
+    {
+      name: "last_name",
+      type: "input",
+      message: "Enter the employee last name?",
+      validate: (input) => {
+        // lodash validation method for validating user input
+        if (lodash.isEmpty(input)) {
+          return "Employee last name is required.";
+        }
+        return true;
+      }   
+    }
+  ]);
+
+}
+
 
 // function which prompts the user for what action to do
 async function startQuestions() {
@@ -109,7 +140,14 @@ async function startQuestions() {
     viewAllEmployeeByManager(connection, response.manager);
   }
   else if(answer.questionList === "Add Employee") {
-    addEmployee();
+    const response = await addingEmployee();
+    const roles = await getAllRole(connection);
+    const roleResponse = await chooseRole(roles);
+    const managers = await getAllManager(connection);
+    const managerResponse = await chooseManager(managers);
+    addEmployee(connection,response.first_name,response.last_name,roleResponse.role, managerResponse.manager);
+    console.log(response.first_name,response.last_name,roleResponse.role,managerResponse.manager);
+    //const roles  = await chooseRole(roles);
   }
   else if(answer.questionList === "Add Department"){
       addDepartment(); 
