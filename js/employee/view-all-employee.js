@@ -4,9 +4,9 @@ function viewAllEmployee(connection) {
     e.id, 
     e.first_name, 
     e.last_name, 
-    r.title, 
+    r.title as role, 
     r.salary, 
-    d.name, 
+    d.name as department, 
     m.first_name as manager_first_name, 
     m.last_name as managet_last_name
     from 
