@@ -39,11 +39,21 @@ Open employee-tracker-connectionDB.js in Command Line Terminal using the command
 * Update/Remove Employee
 * ![UpdateRemoveEmployee](screenshots/update:removeEmployee.gif)
 
-
-
+### License
+* This program is licensed under the [MIT](https://choosealicense.com/licenses/mit/) license.
 
 ### References
 * https://lodash.com/docs/4.17.15#map
 * https://sqlbolt.com/lesson/select_queries_introduction
 * https://www.w3schools.com/sql/sql_join.asp
 * https://javascript.info/async-await
+### Questions
+* If you have any questions, Please feel free to contact me [Anitha Venkatesan](https://github.com/Anitha-Venkatesan) on my email anithamca68@gmail.com
+
+* You can also create [issues](https://github.com/Anitha-Venkatesan/employee-tracker/issues) on my repo.
+
+
+
+
+
+
