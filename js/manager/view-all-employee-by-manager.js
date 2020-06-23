@@ -8,7 +8,7 @@ function viewAllEmployeeByManager(connection,managerId) {
     r.salary, 
     d.name, 
     m.first_name as manager_first_name, 
-    m.last_name as managet_last_name
+    m.last_name as manager_last_name
     from 
     employee e LEFT JOIN employee m ON e.manager_id = m.id, role r, department d where 
     e.role_id = r.id and 
