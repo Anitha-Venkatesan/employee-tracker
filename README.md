@@ -14,6 +14,7 @@
 * For instance, an employee should have firstname,lastname,role of the employee,department of the employee,manager of the employee and salary
 
 ## Table of Contents 
+
  1. [TableSchema](#tableSchema)
  
  2. [Installation](#installation)
