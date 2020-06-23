@@ -12,6 +12,7 @@ let { addEmployee } = require("./js/employee/add-employee");
 let { addDepartment } = require("./js/departments/add-department");
 let { addRole } = require("./js/roles/add-role");
 let { updateEmployeeRole } = require("./js/employee/update-employee-role");
+let { updateEmployeeManager } = require("./js/employee/update-employee-manager");
 let { allEmployeeList } = require("./js/employee/employeeList");
 let { deleteEmployee } = require("./js/employee/delete-employee");
 let { sumOfDepartment } = require("./js/departments/sum-salary-department")
@@ -76,7 +77,7 @@ function chooseEmployee(employees) {
   return inquirer.prompt({
     name: "employee",
     type: "list",
-    message: "Choose the employee from the list to update the role ",
+    message: "Choose the employee from the list to update the role or manager ",
     choices: lodash.map(employees, (employee) => {
       return {
         name: `${employee.first_name} ${employee.last_name}`,
@@ -151,6 +152,7 @@ async function startQuestions() {
       "Add Employee",
       "Add Role",
       "Update Employee Role",
+      "Update Employee Manager",
       "Remove Employee",
       "View the total utilized budget of a department",
       "Exit" 
@@ -214,6 +216,15 @@ async function startQuestions() {
     const roles = await getAllRole(connection);
     const roleResponse = await chooseRole(roles);
     updateEmployeeRole(connection,roleResponse.role,employeeResponse.employee);
+    viewAllEmployee(connection);
+    startQuestions();
+  }
+  else if(answer.questionList === "Update Employee Manager") {
+    const allEmployee = await allEmployeeList(connection);
+    const employeeResponse = await chooseEmployee(allEmployee);
+    const managers = await getAllManager(connection);
+    const managerResponse = await chooseManager(managers);
+    updateEmployeeManager(connection,managerResponse.manager,employeeResponse.employee);
     viewAllEmployee(connection);
     startQuestions();
   }
