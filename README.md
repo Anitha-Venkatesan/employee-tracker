@@ -12,6 +12,19 @@
       3. department
 * Use the Inquirer npm package to prompt the user for CRUD(CREATE,READ,UPDATE,DELETE)the employee roles. 
 * For instance, an employee should have firstname,lastname,role of the employee,department of the employee,manager of the employee and salary
+
+## Table of Contents 
+ 1. [TableSchema](#tableSchema)
+ 
+ 2. [Installation](#installation)
+   
+ 3. [Dependencies](#dependencies)
+ 
+ 4. [Usage](#usage)
+    
+ 5. [License](#license)
+    
+ 6. [Questions](#questions)
 ### Table Schema
 ![Schema](screenshots/Schema.png)
 ### Installation
