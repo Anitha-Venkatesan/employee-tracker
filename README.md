@@ -1,7 +1,7 @@
 # employee-tracker
 ![badmath](https://img.shields.io/github/languages/top/nielsenjared/badmath)
-![npm version](https://badge.fury.io/js/cli.svg)](https://badge.fury.io/js/cli)
-![npm version](https://badge.fury.io/js/lodash.svg)](https://badge.fury.io/js/lodash)
+[![npm version](https://badge.fury.io/js/cli.svg)](https://badge.fury.io/js/cli)
+[![npm version](https://badge.fury.io/js/lodash.svg)](https://badge.fury.io/js/lodash)
 ![mysql](https://badge.fury.io/js/mysql.svg)
 ### Description
 * A command line application that allows the user to view, add, update, remove the employee, role and department of the company that uses MySQl database
