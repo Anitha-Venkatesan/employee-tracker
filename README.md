@@ -15,7 +15,7 @@
 
 ## Table of Contents 
 
- 1. [TableSchema](#tableSchema)
+ 1. [Table Schema](#tableSchema)
  
  2. [Installation](#installation)
    
