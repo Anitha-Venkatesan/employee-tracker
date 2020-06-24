@@ -15,6 +15,7 @@ let { updateEmployeeRole } = require("./js/employee/update-employee-role");
 let { updateEmployeeManager } = require("./js/employee/update-employee-manager");
 let { allEmployeeList } = require("./js/employee/employeeList");
 let { deleteEmployee } = require("./js/employee/delete-employee");
+let { deleteRole } = require("./js/roles/delete-role");
 let { sumOfDepartment } = require("./js/departments/sum-salary-department")
 
 
@@ -154,6 +155,7 @@ async function startQuestions() {
       "Update Employee Role",
       "Update Employee Manager",
       "Remove Employee",
+      "Remove Role",
       "View the total utilized budget of a department",
       "Exit" 
     ]
@@ -235,6 +237,14 @@ async function startQuestions() {
     viewAllEmployee(connection);
     startQuestions();
   }
+  else if(answer.questionList === "Remove Role") {
+    const roles = await getAllRole(connection);
+    const roleResponse = await chooseRole(roles);
+    deleteRole(connection,roleResponse.role);
+    viewAllEmployee(connection);
+    startQuestions();
+  }
+
   else if(answer.questionList === "View the total utilized budget of a department") {
     sumOfDepartment(connection);
     startQuestions();
