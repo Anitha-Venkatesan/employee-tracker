@@ -24,7 +24,7 @@ let connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "Eswari@1969",
+  password: "",
   database: "employee_tracker_db"
 });
 // connect to the mysql server and sql database
